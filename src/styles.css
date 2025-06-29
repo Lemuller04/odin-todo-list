@@ -1,0 +1,71 @@
+:root {
+  --highlight-color: #8545b0;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-columns: auto 1fr;
+  color: #fff;
+}
+
+header {
+  background-color: var(--highlight-color);
+  grid-area: 1 / 2 / 2 / 3;
+  display: flex;
+  justify-content: flex-end;
+}
+
+header ul {
+  list-style-type: none;
+  display: flex;
+}
+
+header button {
+  background: none;
+  border: none;
+  color: inherit;
+}
+
+.sidebar {
+  background-color: var(--highlight-color);
+  grid-area: 1 / 1 / 5 / 2;
+}
+
+.user-name {
+  display: flex;
+}
+
+.projects-list-container {
+  padding-left: 20px;
+  display: grid;
+}
+
+.projects-list-container button {
+  justify-self: center;
+}
+
+footer {
+  background-color: var(--highlight-color);
+  grid-area: 4 / 2 / 5 / 3;
+  padding: 3px;
+  text-align: center;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
