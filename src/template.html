@@ -21,12 +21,7 @@
       <div class="user-info">
       </div>
     </div>
-    <div class="projects-list-container">
-      <h2>Projects</h2>
-      <button class="project-button all-projects" value="all projects">All Projects</button>
-      <ul class="projects-list">
-      </ul>
-      <button class="new-project-button">Add new project</button>
+    <div class="side-bar-content">
 
       <dialog class="new-project-dialog">
         <form action="" method="post" class="new-project-form">
@@ -75,6 +70,50 @@
       </div>
       <hr>
     </div>
+    <button class="new-todo-button" data-open="new-todo-dialog">Add ToDo +</button>
+
+    <div class="todos-container"></div>
+
+    <dialog class="new-todo-dialog">
+      <form action="#" method="post" class="new-todo-form">
+        <fieldset>
+          <legend>New ToDo</legend>
+          <p>
+            <label for="new-todo-title">Title: </label>
+            <input type="text" id="new-todo-title" name="new-todo-title" required>
+          </p>
+          <p class="new-todo-textarea">
+            <label for="todo-desc">Description:</label>
+            <textarea id="todo-desc" name="todo-desc"></textarea>
+          </p>
+        </fieldset>
+        <fieldset>
+          <legend>ToDo Options</legend>
+          <p>
+            <label for="new-todo-duedate">Due date:</label>
+            <input type="date" id="new-todo-duedate" name="new-todo-duedate">
+          </p>
+          <p>
+            <label for="new-todo-importance">Importance:</label>
+            <select name="new-todo-importance" id="new-todo-importance" required>
+              <option value="" disable hidden selected>Select</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </p>
+          <p>
+            <label for="new-todo-project">Project:</label>
+            <input type="text" id="new-todo-project" name="new-todo-project" required>
+          </p>
+        </fieldset>
+        <fieldset class="buttons">
+          <button type="button" class="cancel-new-todo" data-close="new-todo-dialog">Cancel</button>
+          <button type="reset" class="reset-new-todo-form">Reset Form</button>
+          <button type="submit">Save</button>
+        </fieldset>
+      </form>
+    </dialog>
   </main>
 
   <footer>

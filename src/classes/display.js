@@ -63,110 +63,77 @@ const Display = (() => {
     logoContainer.appendChild(logo);
   }
 
-  function clearElement(element) {
-    while (element.firstChild) {
-      element.removeChild(element.firstChild);
-    }
+  function openDialog(button) {
+    const dialogClass = button.getAttribute("data-open");
+    const modal = document.querySelector(`.${dialogClass}`);
+    modal.showModal();
   }
 
-  function updateProjectsList(list) {
-    const container = document.querySelector(".projects-list");
-    clearElement(container);
-
-    for (let project of list) {
-      container.appendChild(createProjectElement(project));
-    }
+  function closeDialog(button) {
+    const dialogClass = button.getAttribute("data-close");
+    const modal = document.querySelector(`.${dialogClass}`);
+    modal.close();
   }
 
-  function createProjectElement(name) {
-    const li = document.createElement("li");
-    const button = document.createElement("button");
-
-    button.textContent = name;
-    Events.publish("projectButton:added", button);
-
-    li.appendChild(button);
-    li.setAttribute("data-project", name);
-    setUpProjectListIcons(li, name);
-
-    return li;
+  function closeNewTodoDialog() {
+    document.querySelector(".new-todo-dialog").close();
   }
 
-  function setUpProjectListIcons(parent, name) {
-    const IMG_SIZE = "18";
+  function addCardTools(container, todo) {
+    const duedateContainer = document.createElement("span");
+    duedateContainer.textContent = `Duedate: ${todo.duedate}`;
+    container.appendChild(duedateContainer);
 
-    const p = document.createElement("p");
+    const buttons = document.createElement("div");
     const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    buttons.appendChild(editButton);
     const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    buttons.appendChild(deleteButton);
+    const markComplete = document.createElement("input");
+    markComplete.setAttribute("type", "checkbox");
+    buttons.appendChild(markComplete);
 
-    const editImg = document.createElement("img");
-    editImg.src = editIcon;
-    editImg.width = IMG_SIZE;
-    editImg.height = IMG_SIZE;
-    editImg.alt = "Edit project name";
-
-    const deleteImg = document.createElement("img");
-    deleteImg.src = deleteIcon;
-    deleteImg.width = IMG_SIZE;
-    deleteImg.height = IMG_SIZE;
-    deleteImg.alt = "Delete project";
-
-    editButton.appendChild(editImg);
-    editButton.classList.add("edit-project-button");
-    editButton.setAttribute("data-project", name);
-    deleteButton.appendChild(deleteImg);
-    deleteButton.classList.add("delete-project-button");
-    deleteButton.setAttribute("data-project", name);
-
-    Events.publish("editButton:added", editButton);
-    Events.publish("deleteButton:added", deleteButton);
-
-    p.appendChild(editButton);
-    p.appendChild(deleteButton);
-
-    parent.appendChild(p);
+    buttons.classList.add("todo-card-buttons");
+    container.appendChild(buttons);
   }
 
-  function showNewProjectDialog(button) {
-    document.querySelector(".new-project-dialog").showModal();
+  function fillTodos(todos) {
+    const container = document.querySelector(".todos-container");
+
+    for (let todo of todos) {
+      const card = document.createElement("div");
+      card.classList.add("todo-card");
+
+      const h3 = document.createElement("h3");
+      h3.textContent = todo.title;
+      const projectSpan = document.createElement("span");
+      projectSpan.textContent = todo.project;
+      h3.appendChild(projectSpan);
+
+      const p = document.createElement("p");
+      p.classList.add("todo-description");
+      p.classList.add(todo.importance);
+      p.textContent = todo.description;
+
+      const cardTools = document.createElement("p");
+      cardTools.classList.add(todo.importance);
+      cardTools.classList.add("card-tool-bar");
+      addCardTools(cardTools, todo);
+
+      card.appendChild(h3);
+      card.appendChild(p);
+      card.appendChild(cardTools);
+      container.appendChild(card);
+    }
   }
 
-  function hideNewProjectDialog(button) {
-    document.querySelector(".new-project-dialog").close();
-  }
-
-  function showEditProjectDialog(button) {
-    document.querySelector(".edit-project-dialog").showModal();
-  }
-
-  function hideEditProjectDialog(button) {
-    document.querySelector(".edit-project-dialog").close();
-  }
-
-  function setUpActiveClass(button) {
-    button.addEventListener("click", () => {
-      if (activeButton) {
-        activeButton.classList.remove("active");
-      }
-      button.classList.add("active");
-      activeButton = button;
-    });
-  }
-
-  function unsetActiveButton() {
-    activeButton.classList.remove("active");
-  }
-
+  Events.subscribe("newTodoItem:submited", closeNewTodoDialog);
   Events.subscribe("page:loaded", indexSetUp);
-  Events.subscribe("projects:updated", updateProjectsList);
-  Events.subscribe("newProjectButton:pressed", showNewProjectDialog);
-  Events.subscribe("cancelNewProjectButton:pressed", hideNewProjectDialog);
-  Events.subscribe("saveNewProjectButton:pressed", hideNewProjectDialog);
-  Events.subscribe("cancelEditProjectButton:pressed", hideEditProjectDialog);
-  Events.subscribe("editProjectButton:pressed", showEditProjectDialog);
-  Events.subscribe("saveEditedProjectButton:pressed", hideEditProjectDialog);
-  Events.subscribe("projectButton:added", setUpActiveClass);
-  Events.subscribe("allProjectsButton:pressed", unsetActiveButton);
+  Events.subscribe("addTodoButton:clicked", openDialog);
+  Events.subscribe("cancelFormButton:pressed", closeDialog);
+  Events.subscribe("todosArray:updated", fillTodos);
 })();
 
 export default Display;
