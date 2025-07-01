@@ -1,5 +1,6 @@
 :root {
   --highlight-color: #8545b0;
+  --main-text-color: #292E1E;
 }
 
 *,
@@ -10,8 +11,16 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: "Lato";
+  src: url("fonts/Lato/Lato-Regular.ttf");
+}
+
 body {
+  font-family: "Lato";
   min-height: 100vh;
+  font-size: 1rem;
+  line-height: 1.5;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   grid-template-columns: auto 1fr;
@@ -23,35 +32,146 @@ header {
   grid-area: 1 / 2 / 2 / 3;
   display: flex;
   justify-content: flex-end;
+  height: 70px;
+  box-shadow: 2px 2px 2px rgb(133 69 176 / .5)
 }
 
 header ul {
   list-style-type: none;
   display: flex;
+  align-items: center;
+  margin-right: 20px;
+  gap: 10px;
 }
 
 header button {
   background: none;
   border: none;
   color: inherit;
+  text-decoration: underline;
 }
 
 .sidebar {
   background-color: var(--highlight-color);
   grid-area: 1 / 1 / 5 / 2;
+  box-shadow: 2px 2px 2px rgb(133 69 176 / .5)
+}
+
+.user-name-container {
+  display: flex;
+  padding: 15px 30px;
+  gap: 5px;
 }
 
 .user-name {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.profile-picture {
+  border-radius: 50%;
+}
+
+.sidebar button {
+  background-color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px rgb(0 0 0 / .2);
+  margin-top: 20px;
+}
+
+.projects-list {
+  list-style-type: none;
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.projects-list li {
+  padding: 3px 10px;
+  display: grid;
+  grid-template: auto / 1fr auto;
+  gap: 10px;
+}
+
+.projects-list li p {
+  justify-self: end;
+}
+
+.projects-list button {
+  background: none;
+  color: #fff;
+  box-shadow: none;
+  font-size: 1.1rem;
+  padding: 0;
+  margin: 0;
+}
+
+.projects-list button:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.active {
+  text-align: center;
+  font-weight: 700;
+  border: 1px solid #fff !important;
+  padding: 3px 8px !important;
+}
+
+.active::before {
+  content: "> ";
 }
 
 .projects-list-container {
-  padding-left: 20px;
   display: grid;
+  justify-content: center;
+  gap: 20px;
 }
 
-.projects-list-container button {
-  justify-self: center;
+main {
+  color: var(--main-text-color);
+}
+
+h1 {
+  padding: 20px 50px;
+}
+
+.tool-bar {
+  display: grid;
+  grid-template: auto / 1fr auto auto;
+  align-content: center;
+  gap: 10px;
+  padding: 0 4vw 0 20px;
+}
+
+main hr {
+  margin-top: 20px;
+}
+
+.tool-bar input {
+  padding: 6px 15px;
+  border: 2px solid #888;
+  border-radius: 20px;
+}
+
+.tool-bar button {
+  background: none;
+  border: none;
+  border-radius: 50%;
+  height: fit-content;
+  width: 30px;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+.tool-bar p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 footer {
@@ -68,4 +188,41 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+button,
+input,
+select,
+option,
+label {
+  font-size: inherit;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+dialog {
+  place-self: center;
+  padding: 30px 60px;
+  border-radius: 20px;
+  font-size: 1.3rem;
+  color: #fff;
+  background-color: var(--highlight-color);
+}
+
+dialog::backdrop {
+  background-color: rgb(0 0 0 / .4);
+}
+
+dialog p {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+dialog input {
+  border-radius: 10px;
+  border: none;
+  padding: 3px 8px;
 }

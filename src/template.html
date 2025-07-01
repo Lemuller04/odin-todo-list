@@ -13,28 +13,68 @@
       <li><button>Log Out</button></li>
       <li><button>Change User</button></li>
     </ul>
-    <img src="" alt="App logo">
+    <div class="logo-container"></div>
   </header>
 
   <section class="sidebar">
-    <div class="user-name">
-      <img src="" alt="User profile picture">
-      <div>
-        <p>User name</p>
-        <p>2025-06-29</p>
+    <div class="user-name-container">
+      <div class="user-info">
       </div>
     </div>
     <div class="projects-list-container">
       <h2>Projects</h2>
-      <div class="projects-list">
+      <button class="project-button all-projects" value="all projects">All Projects</button>
+      <ul class="projects-list">
+      </ul>
+      <button class="new-project-button">Add new project</button>
 
-      </div>
-      <button>Add new project</button>
+      <dialog class="new-project-dialog">
+        <form action="" method="post" class="new-project-form">
+          <p>
+            <label for="new-project-name">Project name:</label>
+            <input type="text" id="new-project-name" name="new-project-name" required>
+          </p>
+          <p>
+            <button type="button" class="cancel-new-project">Cancel</button>
+            <button type="submit" class="confirm-new-project">Save</button>
+          </p>
+        </form>
+      </dialog>
+
+      <dialog class="edit-project-dialog">
+        <form action="" method="post" class="edit-project-form">
+          <p>
+            <label for="replace-project-name">Project name:</label>
+            <input type="text" id="replace-project-name" name="replace-project-name" required>
+          </p>
+          <p>
+            <button type="button" class="cancel-edit-project">Cancel</button>
+            <button type="submit" class="confirm-edit-project">Save</button>
+          </p>
+        </form>
+      </dialog>
     </div>
   </section>
 
   <main>
-
+    <div>
+      <h1>All Projects</h1>
+      <div class="tool-bar">
+        <input type="text" placeholder="Search..." id="search" name="search">
+        <button class="search-button"></button>
+        <p>
+          <label for="order">Order by</label>
+          <select name="order" id="order">
+            <option value="deadline" selected>Deadline</option>
+            <option value="importance">Importance</option>
+            <option value="oldest">Oldest</option>
+            <option value="newest">Newest</option>
+            <option value="date modified">Date modified</option>
+          </select>
+        </p>
+      </div>
+      <hr>
+    </div>
   </main>
 
   <footer>
