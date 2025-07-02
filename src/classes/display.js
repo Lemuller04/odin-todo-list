@@ -127,6 +127,12 @@ const Display = (() => {
     container.appendChild(duedateContainer);
 
     const buttons = document.createElement("div");
+
+    const expandButton = document.createElement("button");
+    expandButton.textContent = "Expand";
+    expandButton.setAttribute("data-id", todo.id);
+    buttons.appendChild(expandButton);
+
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
     editButton.setAttribute("data-id", todo.id);
@@ -151,6 +157,7 @@ const Display = (() => {
       editButton,
       deleteButton,
       markComplete,
+      expandButton,
     ]);
 
     buttons.classList.add("todo-card-buttons");
@@ -228,15 +235,25 @@ const Display = (() => {
     button.classList.add("active");
   }
 
+  function expandTodoCard(button) {
+    const p = button.parentNode.parentNode.previousElementSibling;
+    if (p.classList.contains("expanded")) {
+      p.classList.remove("expanded");
+    } else {
+      p.classList.add("expanded");
+    }
+  }
+
   Events.subscribe("page:loaded", indexSetUp);
 
   Events.subscribe("todoCardEditButton:pressed", openDialog);
   Events.subscribe("addTodoButton:clicked", openDialog);
   Events.subscribe("cancelFormButton:pressed", closeDialog);
+  Events.subscribe("sidebarProject:clicked", updateActiveProject);
+  Events.subscribe("expandButton:clicked", expandTodoCard);
 
   Events.subscribe("newTodoItem:submited", closeNewTodoDialog);
   Events.subscribe("editTodoItem:submited", closeEditTodoDialog);
-  Events.subscribe("sidebarProject:clicked", updateActiveProject);
 
   Events.subscribe("todosArray:updated", fillTodos);
   Events.subscribe("newTodo:added", fillTodos);

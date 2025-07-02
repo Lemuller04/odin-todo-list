@@ -45,6 +45,13 @@ const InputHandler = (() => {
         .querySelector("input[name=edit-todo-project]")
         .value.trim();
 
+      const error = validateFormData(title, project);
+
+      if (error) {
+        alert(error);
+        return;
+      }
+
       const todoData = { title, description, duedate, importance, project };
       const id = document
         .querySelector(".edit-todo-id")
@@ -77,12 +84,33 @@ const InputHandler = (() => {
         .querySelector("input[name=new-todo-project]")
         .value.trim();
 
+      const error = validateFormData(title, project);
+
+      if (error) {
+        alert(error);
+        return;
+      }
+
       const todoData = { title, description, duedate, importance, project };
 
       Events.publish("newTodoItem:submited", todoData);
 
       newTodoForm.reset();
     });
+  }
+
+  function validateFormData(title, project) {
+    const pattern = /^.{1,32}$/;
+
+    if (!pattern.test(title)) {
+      return "Title must have from 1 to 32 characters";
+    }
+
+    if (!pattern.test(project)) {
+      return "Project name must have from 1 to 32 characters";
+    }
+
+    return undefined;
   }
 
   function setUpTodoCardButtons(buttons) {
@@ -94,6 +122,9 @@ const InputHandler = (() => {
     });
     buttons[2].addEventListener("change", () => {
       Events.publish("todoCheckbox:changed", buttons[2]);
+    });
+    buttons[3].addEventListener("click", () => {
+      Events.publish("expandButton:clicked", buttons[3]);
     });
   }
 
