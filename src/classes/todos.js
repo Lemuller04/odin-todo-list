@@ -40,6 +40,7 @@ const Todos = (() => {
       }
       index++;
     }
+    return -1;
   }
 
   function editTodo(info) {

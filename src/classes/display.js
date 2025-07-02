@@ -7,11 +7,46 @@ import appLogo from "./../icons/logo.svg";
 import Events from "./events.js";
 
 const Display = (() => {
-  let activeButton;
-
   function indexSetUp() {
     setUpIcons();
     setUpUserInfo();
+  }
+
+  function setUpSideBar(todos) {
+    const container = document.querySelector(".sidebar-content");
+    const buttons = [];
+
+    const h2 = document.createElement("h2");
+    h2.textContent = "Projects";
+    container.appendChild(h2);
+
+    const list = document.createElement("ul");
+
+    const allProjectsLi = document.createElement("li");
+    const allProjectsButton = document.createElement("button");
+    allProjectsButton.textContent = "All Projects";
+    allProjectsButton.classList.add("active");
+    allProjectsLi.appendChild(allProjectsButton);
+    list.appendChild(allProjectsLi);
+    buttons.push(allProjectsButton);
+
+    const projects = [];
+    for (let todo of todos) {
+      if (!projects.includes(todo.project)) {
+        projects.push(todo.project);
+      }
+    }
+
+    for (let project of projects) {
+      const li = document.createElement("li");
+      const button = document.createElement("button");
+      button.textContent = project;
+      buttons.push(button);
+      li.appendChild(button);
+      list.appendChild(li);
+    }
+
+    container.appendChild(list);
   }
 
   function setUpUserInfo() {
@@ -30,7 +65,6 @@ const Display = (() => {
 
     container.appendChild(dateP);
   }
-
   function currentDate() {
     let dateObj = new Date();
     let date = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`;
@@ -148,6 +182,11 @@ const Display = (() => {
         cardTools.classList.add("complete");
       }
 
+      if (new Date(todo.duedate) < new Date(currentDate())) {
+        p.classList.add("overdue");
+        cardTools.classList.add("overdue");
+      }
+
       card.appendChild(h3);
       card.appendChild(p);
       card.appendChild(cardTools);
@@ -184,6 +223,7 @@ const Display = (() => {
   Events.subscribe("addTodoButton:clicked", openDialog);
   Events.subscribe("cancelFormButton:pressed", closeDialog);
   Events.subscribe("todosArray:updated", fillTodos);
+  Events.subscribe("todosArray:updated", setUpSideBar);
   Events.subscribe("newTodo:added", fillTodos);
   Events.subscribe("todo:edited", fillTodos);
   Events.subscribe("todo:deleted", fillTodos);
