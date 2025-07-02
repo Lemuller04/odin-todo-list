@@ -92,6 +92,9 @@ const InputHandler = (() => {
     buttons[1].addEventListener("click", () => {
       Events.publish("todoDeleteButton:pressed", buttons[1]);
     });
+    buttons[2].addEventListener("change", () => {
+      Events.publish("todoCheckbox:changed", buttons[2]);
+    });
   }
 
   function deleteCard(button) {

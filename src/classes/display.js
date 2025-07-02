@@ -102,6 +102,8 @@ const Display = (() => {
 
     const markComplete = document.createElement("input");
     markComplete.setAttribute("type", "checkbox");
+    markComplete.setAttribute("data-id", todo.id);
+    markComplete.name = "todo-mark-complete";
     buttons.appendChild(markComplete);
 
     Events.publish("todoCardButtons:added", [
@@ -151,6 +153,19 @@ const Display = (() => {
     }
   }
 
+  function toggleTodoCheckbox(button) {
+    const p1 = button.parentNode.parentNode;
+    const p2 = p1.previousElementSibling;
+
+    if (button.checked) {
+      p1.classList.add("complete");
+      p2.classList.add("complete");
+    } else {
+      p1.classList.remove("complete");
+      p2.classList.remove("complete");
+    }
+  }
+
   Events.subscribe("page:loaded", indexSetUp);
   Events.subscribe("todoCardEditButton:pressed", openDialog);
   Events.subscribe("newTodoItem:submited", closeNewTodoDialog);
@@ -161,6 +176,7 @@ const Display = (() => {
   Events.subscribe("newTodo:added", fillTodos);
   Events.subscribe("todo:edited", fillTodos);
   Events.subscribe("todo:deleted", fillTodos);
+  Events.subscribe("todoCheckbox:changed", toggleTodoCheckbox);
 })();
 
 export default Display;
