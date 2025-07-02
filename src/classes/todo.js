@@ -7,9 +7,6 @@ function createTodo(title, description, duedate, importance, project) {
     project,
     id: crypto.randomUUID(),
     completed: false,
-    markAsDone() {
-      this.completed = true;
-    },
   };
 }
 

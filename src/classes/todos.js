@@ -67,6 +67,26 @@ const Todos = (() => {
     Events.publish("todo:deleted", todos);
   }
 
+  function markTodoAsComplete(id) {
+    for (let todo of todos) {
+      if (todo.id === id) {
+        todo.completed = true;
+      }
+    }
+    Events.publish("todo:completed", todos);
+  }
+
+  function unmarkTodoAsComplete(id) {
+    for (let todo of todos) {
+      if (todo.id === id) {
+        todo.completed = false;
+      }
+    }
+    Events.publish("todo:uncompleted", todos);
+  }
+
+  Events.subscribe("todoComplete:unchecked", unmarkTodoAsComplete);
+  Events.subscribe("todoComplete:checked", markTodoAsComplete);
   Events.subscribe("deleteTodoButton:pressed", deleteTodo);
   Events.subscribe("editTodoItem:submited", editTodo);
   Events.subscribe("page:loaded", setTodosArray);

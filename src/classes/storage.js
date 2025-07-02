@@ -8,6 +8,8 @@ const Storage = (() => {
   Events.subscribe("newTodo:added", updateLocalStorage);
   Events.subscribe("todo:edited", updateLocalStorage);
   Events.subscribe("todo:deleted", updateLocalStorage);
+  Events.subscribe("todo:completed", updateLocalStorage);
+  Events.subscribe("todo:uncompleted", updateLocalStorage);
 })();
 
 export default Storage;

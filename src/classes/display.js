@@ -104,6 +104,9 @@ const Display = (() => {
     markComplete.setAttribute("type", "checkbox");
     markComplete.setAttribute("data-id", todo.id);
     markComplete.name = "todo-mark-complete";
+    if (todo.completed) {
+      markComplete.checked = true;
+    }
     buttons.appendChild(markComplete);
 
     Events.publish("todoCardButtons:added", [
@@ -140,6 +143,11 @@ const Display = (() => {
       cardTools.classList.add("card-tool-bar");
       addCardTools(cardTools, todo);
 
+      if (todo.completed) {
+        p.classList.add("complete");
+        cardTools.classList.add("complete");
+      }
+
       card.appendChild(h3);
       card.appendChild(p);
       card.appendChild(cardTools);
@@ -156,13 +164,16 @@ const Display = (() => {
   function toggleTodoCheckbox(button) {
     const p1 = button.parentNode.parentNode;
     const p2 = p1.previousElementSibling;
+    const id = button.getAttribute("data-id");
 
     if (button.checked) {
       p1.classList.add("complete");
       p2.classList.add("complete");
+      Events.publish("todoComplete:checked", id);
     } else {
       p1.classList.remove("complete");
       p2.classList.remove("complete");
+      Events.publish("todoComplete:unchecked", id);
     }
   }
 
