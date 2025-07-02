@@ -70,7 +70,7 @@
       </div>
       <hr>
     </div>
-    <button class="new-todo-button" data-open="new-todo-dialog">Add ToDo +</button>
+    <button class="new-todo-button" data-open="new-todo-dialog">+ Add ToDo</button>
 
     <div class="todos-container"></div>
 
@@ -110,6 +110,47 @@
         <fieldset class="buttons">
           <button type="button" class="cancel-new-todo" data-close="new-todo-dialog">Cancel</button>
           <button type="reset" class="reset-new-todo-form">Reset Form</button>
+          <button type="submit">Save</button>
+        </fieldset>
+      </form>
+    </dialog>
+
+    <dialog class="edit-todo-dialog">
+      <form action="#" method="post" class="edit-todo-form">
+        <fieldset>
+          <legend>Edit ToDo</legend>
+          <p>
+            <label for="edit-todo-title">Title: </label>
+            <input type="text" id="edit-todo-title" name="edit-todo-title" required>
+          </p>
+          <p class="edit-todo-textarea">
+            <label for="edit-todo-desc">Description:</label>
+            <textarea id="edit-todo-desc" name="edit-todo-desc"></textarea>
+          </p>
+        </fieldset>
+        <fieldset>
+          <legend>ToDo Options</legend>
+          <p>
+            <label for="edit-todo-duedate">Due date:</label>
+            <input type="date" id="edit-todo-duedate" name="edit-todo-duedate">
+          </p>
+          <p>
+            <label for="edit-todo-importance">Importance:</label>
+            <select name="edit-todo-importance" id="edit-todo-importance" required>
+              <option value="" disable hidden selected>Select</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </p>
+          <p>
+            <label for="edit-todo-project">Project:</label>
+            <input type="text" id="edit-todo-project" name="edit-todo-project" required>
+          </p>
+        </fieldset>
+        <fieldset class="buttons">
+          <input type="hidden" class="edit-todo-id">
+          <button type="button" class="cancel-edit-todo" data-close="edit-todo-dialog">Cancel</button>
           <button type="submit">Save</button>
         </fieldset>
       </form>

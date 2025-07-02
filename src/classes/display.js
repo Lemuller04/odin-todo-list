@@ -79,6 +79,10 @@ const Display = (() => {
     document.querySelector(".new-todo-dialog").close();
   }
 
+  function closeEditTodoDialog() {
+    document.querySelector(".edit-todo-dialog").close();
+  }
+
   function addCardTools(container, todo) {
     const duedateContainer = document.createElement("span");
     duedateContainer.textContent = `Duedate: ${todo.duedate}`;
@@ -87,13 +91,24 @@ const Display = (() => {
     const buttons = document.createElement("div");
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
+    editButton.setAttribute("data-id", todo.id);
+    editButton.setAttribute("data-open", "edit-todo-dialog");
     buttons.appendChild(editButton);
+
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
+    deleteButton.setAttribute("data-id", todo.id);
     buttons.appendChild(deleteButton);
+
     const markComplete = document.createElement("input");
     markComplete.setAttribute("type", "checkbox");
     buttons.appendChild(markComplete);
+
+    Events.publish("todoCardButtons:added", [
+      editButton,
+      deleteButton,
+      markComplete,
+    ]);
 
     buttons.classList.add("todo-card-buttons");
     container.appendChild(buttons);
@@ -101,6 +116,7 @@ const Display = (() => {
 
   function fillTodos(todos) {
     const container = document.querySelector(".todos-container");
+    purge(container);
 
     for (let todo of todos) {
       const card = document.createElement("div");
@@ -129,11 +145,22 @@ const Display = (() => {
     }
   }
 
-  Events.subscribe("newTodoItem:submited", closeNewTodoDialog);
+  function purge(container) {
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+  }
+
   Events.subscribe("page:loaded", indexSetUp);
+  Events.subscribe("todoCardEditButton:pressed", openDialog);
+  Events.subscribe("newTodoItem:submited", closeNewTodoDialog);
+  Events.subscribe("editTodoItem:submited", closeEditTodoDialog);
   Events.subscribe("addTodoButton:clicked", openDialog);
   Events.subscribe("cancelFormButton:pressed", closeDialog);
   Events.subscribe("todosArray:updated", fillTodos);
+  Events.subscribe("newTodo:added", fillTodos);
+  Events.subscribe("todo:edited", fillTodos);
+  Events.subscribe("todo:deleted", fillTodos);
 })();
 
 export default Display;

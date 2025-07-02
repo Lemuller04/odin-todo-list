@@ -16,12 +16,20 @@ const Index = (() => {
   function setButtons() {
     setAddTodoButton();
     setNewTodoFormButtons();
+    setEditTodoButtons();
+  }
+
+  function setEditTodoButtons() {
+    const cancelEditTodo = document.querySelector(".cancel-edit-todo");
+    cancelEditTodo.addEventListener("click", () => {
+      Events.publish("cancelFormButton:pressed", cancelEditTodo);
+    });
   }
 
   function setNewTodoFormButtons() {
-    const cancel = document.querySelector(".cancel-new-todo");
-    cancel.addEventListener("click", () => {
-      Events.publish("cancelFormButton:pressed", cancel);
+    const cancelNewTodo = document.querySelector(".cancel-new-todo");
+    cancelNewTodo.addEventListener("click", () => {
+      Events.publish("cancelFormButton:pressed", cancelNewTodo);
     });
 
     const reset = document.querySelector(".reset-new-todo-form");
