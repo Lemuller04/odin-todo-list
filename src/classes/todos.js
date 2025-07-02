@@ -86,6 +86,23 @@ const Todos = (() => {
     Events.publish("todo:uncompleted", todos);
   }
 
+  function getTodosByProject(button) {
+    if (button.textContent === "All Projects") {
+      Events.publish("todos:filtered", todos);
+      return;
+    }
+
+    const todosFiltered = [];
+    for (let todo of todos) {
+      if (todo.project === button.textContent) {
+        todosFiltered.push(todo);
+      }
+    }
+
+    Events.publish("todos:filtered", todosFiltered);
+  }
+
+  Events.subscribe("sidebarProject:clicked", getTodosByProject);
   Events.subscribe("todoComplete:unchecked", unmarkTodoAsComplete);
   Events.subscribe("todoComplete:checked", markTodoAsComplete);
   Events.subscribe("deleteTodoButton:pressed", deleteTodo);

@@ -102,10 +102,24 @@ const InputHandler = (() => {
     Events.publish("deleteTodoButton:pressed", id);
   }
 
+  function setUpSidebarProjects(buttons) {
+    for (let button of buttons) {
+      button.addEventListener("click", () => {
+        Events.publish("sidebarProject:clicked", button);
+      });
+    }
+  }
+
+  function handleProjectClicked(project) {
+    // console.log(project);
+  }
+
+  Events.subscribe("sidebarProject:clicked", handleProjectClicked);
   Events.subscribe("todoDeleteButton:pressed", deleteCard);
   Events.subscribe("todoCardEditButton:pressed", fillEditingInputs);
   Events.subscribe("page:loaded", setUpForms);
   Events.subscribe("todoCardButtons:added", setUpTodoCardButtons);
+  Events.subscribe("sidebarProjects:added", setUpSidebarProjects);
 })();
 
 export default InputHandler;

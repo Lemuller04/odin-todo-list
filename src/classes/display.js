@@ -14,6 +14,7 @@ const Display = (() => {
 
   function setUpSideBar(todos) {
     const container = document.querySelector(".sidebar-content");
+    purge(container);
     const buttons = [];
 
     const h2 = document.createElement("h2");
@@ -26,6 +27,7 @@ const Display = (() => {
     const allProjectsButton = document.createElement("button");
     allProjectsButton.textContent = "All Projects";
     allProjectsButton.classList.add("active");
+    allProjectsButton.classList.add("sidebar-project-button");
     allProjectsLi.appendChild(allProjectsButton);
     list.appendChild(allProjectsLi);
     buttons.push(allProjectsButton);
@@ -41,11 +43,13 @@ const Display = (() => {
       const li = document.createElement("li");
       const button = document.createElement("button");
       button.textContent = project;
+      button.classList.add("sidebar-project-button");
       buttons.push(button);
       li.appendChild(button);
       list.appendChild(li);
     }
 
+    Events.publish("sidebarProjects:added", buttons);
     container.appendChild(list);
   }
 
@@ -216,17 +220,33 @@ const Display = (() => {
     }
   }
 
+  function updateActiveProject(button) {
+    document.querySelectorAll(".sidebar-project-button").forEach((el) => {
+      el.classList.remove("active");
+    });
+
+    button.classList.add("active");
+  }
+
   Events.subscribe("page:loaded", indexSetUp);
+
   Events.subscribe("todoCardEditButton:pressed", openDialog);
-  Events.subscribe("newTodoItem:submited", closeNewTodoDialog);
-  Events.subscribe("editTodoItem:submited", closeEditTodoDialog);
   Events.subscribe("addTodoButton:clicked", openDialog);
   Events.subscribe("cancelFormButton:pressed", closeDialog);
+
+  Events.subscribe("newTodoItem:submited", closeNewTodoDialog);
+  Events.subscribe("editTodoItem:submited", closeEditTodoDialog);
+  Events.subscribe("sidebarProject:clicked", updateActiveProject);
+
   Events.subscribe("todosArray:updated", fillTodos);
-  Events.subscribe("todosArray:updated", setUpSideBar);
   Events.subscribe("newTodo:added", fillTodos);
   Events.subscribe("todo:edited", fillTodos);
   Events.subscribe("todo:deleted", fillTodos);
+  Events.subscribe("todos:filtered", fillTodos);
+  Events.subscribe("todosArray:updated", setUpSideBar);
+  Events.subscribe("newTodo:added", setUpSideBar);
+  Events.subscribe("todo:edited", setUpSideBar);
+  Events.subscribe("todo:deleted", setUpSideBar);
   Events.subscribe("todoCheckbox:changed", toggleTodoCheckbox);
 })();
 
