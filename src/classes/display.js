@@ -228,6 +228,7 @@ const Display = (() => {
   }
 
   function updateActiveProject(button) {
+    document.querySelector("h1").textContent = button.textContent;
     document.querySelectorAll(".sidebar-project-button").forEach((el) => {
       el.classList.remove("active");
     });

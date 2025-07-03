@@ -1,5 +1,4 @@
 :root {
-  --highlight-color: #8545b0;
   --highlight-color: #550f85;
   --main-text-color: #292E1E;
 }
@@ -115,20 +114,6 @@ header button {
 .active::before {
   content: "> ";
 }
-
-/* .projects-list li p { */
-/*   justify-self: end; */
-/* } */
-/**/
-/* .projects-list button { */
-/*   background: none; */
-/*   color: #fff; */
-/*   box-shadow: none; */
-/*   font-size: 1.1rem; */
-/*   padding: 0; */
-/*   margin: 0; */
-/* } */
-/**/
 
 main {
   color: var(--main-text-color);
